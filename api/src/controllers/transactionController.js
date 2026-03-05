@@ -105,7 +105,7 @@ const getTransactionById = async (req, res) => {
     }
 };
 
-// PATCH /api/transactions/:id
+// PUT /api/transactions/:id
 const updateTransaction = async (req, res) => {
     try {
         const errors = validationResult(req);

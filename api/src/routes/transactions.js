@@ -34,7 +34,7 @@ const updateValidation = [
 router.post('/', transactionValidation, createTransaction);
 router.get('/', getTransactions);
 router.get('/:id', getTransactionById);
-router.patch('/:id', updateValidation, updateTransaction);
+router.put('/:id', updateValidation, updateTransaction);
 router.delete('/:id', deleteTransaction);
 
 module.exports = router;
