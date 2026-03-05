@@ -1,14 +1,53 @@
 # FinFresh Personal Finance Tracker
 
-A full-stack personal finance tracking application built for the FinFresh Engineering Challenge.
+A robust, 3-tier personal finance application built for the FinFresh Engineering Challenge. This project focuses on **behavioral finance** by providing users with a clear "Financial Health Score" alongside standard transaction tracking.
 
-## Tech Stack
+---
 
-| Tier     | Choice             | Reason                                                                                |
-| -------- | ------------------ | ------------------------------------------------------------------------------------- |
-| Frontend | React + Vite       | Fast DX, component-based, excellent ecosystem for dashboards                          |
-| Backend  | Node.js + Express  | Lightweight, fast JSON APIs, great MongoDB/Mongoose integration                       |
-| Database | MongoDB + Mongoose | Flexible schema fits evolving finance data, strong aggregation pipeline for analytics |
+## 🏗️ Architecture & Design Decisions
+
+### Why this Tech Stack?
+
+- **Backend (Node.js + Express):** Chosen for its non-blocking I/O and rapid development cycle. **Developer Proficiency:** I am highly productive with the Node.js ecosystem, which ensured a robust implementation within the challenge timeframe. (Note: While I am currently more comfortable here than with Flask, I am an active learner and open to transitioning to a Python/FastAPI stack).
+- **Frontend (React + Vite):** React's component-driven architecture is ideal for building dynamic dashboards. **Developer Proficiency:** I am highly productive with the React.js. It is my primary frontend framework, allowing me to focus on feature delivery and complex logic rather than learning new paradigms during the challenge.
+- **Database (MongoDB + Mongoose):** Personal finance data (transactions) can have varying metadata (notes, categories). A document-oriented DB allows for a flexible schema without expensive migrations. Mongoose provides a powerful abstraction for validation and indexing.
+
+### Why these Architectural Choices?
+
+- **Stateless Authentication:** Used JWT (JSON Web Tokens) to keep the backend stateless, allowing for easier horizontal scaling in the future.
+- **RESTful API Structure:** Followed a standard Controller/Service/Route pattern. This separates the HTTP logic from the business logic, making the code more testable and maintainable.
+- **CORS Strategy:** Initially used `PATCH` for updates, but switched to `PUT` after identifying persistent preflight restriction issues in some environments. Manual CORS middleware was implemented to ensure 100% reliability for cross-origin requests.
+
+---
+
+## 🔐 Security Implementation
+
+- **Password Safety:** Passwords are never stored in plain text. We use `bcryptjs` with **12 salt rounds**, striking a balance between security and performance.
+- **JWT Strategy:**
+  - Tokens expire in **24 hours** to limit the window of risk if a token is intercepted.
+  - Verification is handled by a custom `authMiddleware` that checks the standard `Authorization: Bearer` header.
+- **Data Protection:**
+  - Using the `toJSON` override in Mongoose models to ensure sensitive fields (like `passwordHash`) are never leaked to the client.
+  - Implemented `helmet` for essential security headers (XSS protection, Clickjacking prevention).
+
+---
+
+## 📈 Financial Health Score Algorithm
+
+The score (0–100) is a weighted calculation reflecting a user's monthly money habits.
+
+| Component         | Weight | Rationale                                                                                                         |
+| :---------------- | :----- | :---------------------------------------------------------------------------------------------------------------- |
+| **Savings Rate**  | 40%    | The strongest indicator of wealth creation. Focuses on the "gap" between income and spend.                        |
+| **Expense Ratio** | 30%    | Penalizes over-spending relative to income. Key for lifestyle inflation tracking.                                 |
+| **Consistency**   | 20%    | Tracks daily variance in spending. Lower variance (lower std-dev) suggests more controlled, habit-based spending. |
+| **Diversity**     | 10%    | Encourages tracking broad spend types. Using 5+ categories gives full marks.                                      |
+
+### Robustness & Edge Cases
+
+- **Zero Income:** Guarded against division-by-zero. If income is zero, savings rate and expense ratio default to zero to prevent crashes.
+- **Low Data:** If a user has only 1 day of data, consistency is assumed at 100% (no variance yet).
+- **Numeric Safety:** All frontend displays use `parseFloat` and default values (`|| 0`) to ensure that missing API fields never crash the UI.
 
 ---
 
@@ -34,16 +73,14 @@ chennai-assignment/
     └── package.json
 ```
 
----
+## 🚀 How to Run Locally
 
-## How to Run Locally
-
-### Prerequisites
+### 1. Prerequisites
 
 - Node.js v18+
-- MongoDB running locally on port 27017 (or provide a MongoDB Atlas URI)
+- MongoDB (Local or Atlas)
 
-### 1. Clone & Setup Backend
+### 2. Backend Setup
 
 ```bash
 cd api
@@ -54,7 +91,7 @@ npm run dev
 # API runs on http://localhost:5000
 ```
 
-### 2. Setup Frontend
+### 3. Frontend Setup
 
 ```bash
 cd frontend
