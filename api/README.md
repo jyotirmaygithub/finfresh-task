@@ -86,7 +86,7 @@
 | GET    | `/`    | List transactions (filterable, paginated) |
 | POST   | `/`    | Create transaction                        |
 | GET    | `/:id` | Get single transaction                    |
-| PATCH  | `/:id` | Update transaction                        |
+| PUT    | `/:id` | Update transaction                        |
 | DELETE | `/:id` | Delete transaction                        |
 
 **GET / — Query Params**

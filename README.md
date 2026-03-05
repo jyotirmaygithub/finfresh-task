@@ -122,14 +122,3 @@ The score is calculated over the **current calendar month** and returns a value 
 - 🟢 70–100: Healthy
 
 ---
-
-## What I Would Do With More Time
-
-1. **Refresh tokens** — implement sliding expiry with a refresh token stored in httpOnly cookie
-2. **Real-time updates** — WebSocket or SSE for live dashboard refresh
-3. **Budget targets** — let users set monthly budgets per category with alerts
-4. **CSV/PDF export** — transaction history export
-5. **Monthly trend charts** — income/expense trends over 6–12 months
-6. **Unit & integration tests** — Jest + Supertest for API, React Testing Library for UI
-7. **Docker Compose** — one-command local setup for the whole stack
-8. **CI/CD pipeline** — GitHub Actions for lint + test on PR
