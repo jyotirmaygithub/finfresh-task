@@ -82,6 +82,7 @@ body {
   font-weight: 700;
   background: linear-gradient(135deg, #6c5ce7, #74b9ff);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .navbar-links {
@@ -157,6 +158,7 @@ body {
   font-weight: 700;
   background: linear-gradient(135deg, #6c5ce7, #74b9ff);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .auth-header p {
