@@ -8,7 +8,7 @@ A robust, 3-tier personal finance application built for the FinFresh Engineering
 
 ### Why this Tech Stack?
 
-- **Backend (Node.js + Express):** Chosen for its non-blocking I/O and rapid development cycle. **Developer Proficiency:** I am highly productive with the Node.js ecosystem, which ensured a robust implementation within the challenge timeframe. (Note: While I am currently more comfortable here than with Flask, I am an active learner and open to transitioning to a Python/FastAPI stack).
+- **Backend (Hybrid Node.js + Python):** The core API is built with Node.js/Express for rapid development. However, for complex financial analytics (specifically the **Health Score algorithm**), the system delegates work to a specialized **Python** script. This demonstrates a polyglot approach—using the best language for the job (Python's statistical prowess vs Node's I/O).
 - **Frontend (React + Vite):** React's component-driven architecture is ideal for building dynamic dashboards. **Developer Proficiency:** I am highly productive with the React.js. It is my primary frontend framework, allowing me to focus on feature delivery and complex logic rather than learning new paradigms during the challenge.
 - **Database (MongoDB + Mongoose):** Personal finance data (transactions) can have varying metadata (notes, categories). A document-oriented DB allows for a flexible schema without expensive migrations. Mongoose provides a powerful abstraction for validation and indexing.
 
@@ -55,8 +55,9 @@ The score (0–100) is a weighted calculation reflecting a user's monthly money 
 
 ```
 chennai-assignment/
-├── api/           ← Node.js + Express backend
+├── api/           ← Hybrid Backend
 │   ├── src/
+│   │   ├── scripts/      ← Python Analytics (health_score.py)
 │   │   ├── config/       ← DB connection
 │   │   ├── models/       ← Mongoose schemas (User, Transaction)
 │   │   ├── middleware/   ← JWT auth middleware
@@ -78,6 +79,7 @@ chennai-assignment/
 ### 1. Prerequisites
 
 - Node.js v18+
+- Python 3.10+ (for Financial Analytics)
 - MongoDB (Local or Atlas)
 
 ### 2. Backend Setup

@@ -1,4 +1,6 @@
 const Transaction = require('../models/Transaction');
+const { spawn } = require('child_process');
+const path = require('path');
 
 /**
  * Financial Health Score Algorithm
@@ -170,7 +172,43 @@ const getHealthScore = async (req, res) => {
             date: { $gte: start, $lte: end },
         }).lean();
 
-        const result = calculateHealthScore(transactions);
+        let result;
+        try {
+            result = await new Promise((resolve, reject) => {
+                const pythonProcess = spawn('python', [path.join(__dirname, '../scripts/health_score.py')]);
+                let dataString = '';
+                let errorString = '';
+
+                pythonProcess.stdin.write(JSON.stringify(transactions));
+                pythonProcess.stdin.end();
+
+                pythonProcess.stdout.on('data', (data) => {
+                    dataString += data.toString();
+                });
+
+                pythonProcess.stderr.on('data', (data) => {
+                    errorString += data.toString();
+                });
+
+                pythonProcess.on('close', (code) => {
+                    if (code !== 0) {
+                        console.warn(`Python process exited with code ${code}: ${errorString}`);
+                        reject(new Error('Python script failed'));
+                    } else {
+                        try {
+                            resolve(JSON.parse(dataString));
+                        } catch (e) {
+                            reject(e);
+                        }
+                    }
+                });
+            });
+            console.log('Health score calculated via Python');
+        } catch (err) {
+            console.warn('Falling back to JavaScript for health score calculation:', err.message);
+            result = calculateHealthScore(transactions);
+        }
+        // --- Python Integration End ---
 
         // Score label
         let label = 'Needs Attention';

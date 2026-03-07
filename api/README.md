@@ -159,6 +159,9 @@
 
 ## Financial Health Score Algorithm
 
+> [!NOTE]
+> **Polyglot Implementation:** While the API is Node.js, this specific algorithm is implemented in **Python** (`api/src/scripts/health_score.py`) to leverage Python's statistical calculation capabilities. The Express controller spawns a Python sub-process to handle this computation.
+
 Score = `(savingsRate × 0.4) + (expenseRatio × 0.3) + (consistency × 0.2) + (diversity × 0.1)` × 100
 
 | Component            | Weight | Formula                                        |
